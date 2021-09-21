@@ -102,6 +102,12 @@ marks = Label(root, text="GPA", bg="#021524", fg="white").place(x=900, y=380)
 score = Entry(root)
 score.place(x=1020, y=377)
 
+# delete entry and label
+deletebox = Label(root, text='DELETE/UPDATE' ,bg="#052b36", fg="white").place(x=440, y=560)
+delete_box = Entry(root, width=25)
+delete_box.place(x=570, y=557)
+
+
 def submit():
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
@@ -138,9 +144,162 @@ def submit():
 
     conn.commit()
     conn.close()
+
+def update():
+    global gsecond
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    record_id = delete_box.get()
+
+    c.execute("""UPDATE entries SET
+    first_name = :frst ,
+    last_name = :lst,
+    username = :usr,
+    date_of_birth = :dobsecond,
+    age = :agesecond,
+    gender = :gensecond,
+    address = :addrsecond,
+    phone_number = :phonesecond,
+    school = :schoolsecond,
+    score = :scoresecond
+    WHERE oid = :oid""", {
+        'frst': first_name_editor.get(),
+        'lst': last_name_editor.get(),
+        'usr': username_editor.get(),
+        'dobsecond': monthsecond.get() + "/" + daysecond.get() + "/" + yearsecond.get(),
+        'agesecond': age_editor.get(),
+        'gensecond': gsecond.get(),
+        'addrsecond': address_editor.get(),
+        'phonesecond': phone_number_editor.get(),
+        'schoolsecond': school_editor.get(),
+        'scoresecond': score_editor.get(),
+        'oid': record_id
+
+    })
+    messagebox.showinfo("Success", "Data successfully modified")
+    delete_box.delete(0, END)
+    conn.commit()
+    conn.close()
+    editor.destroy()
+
+
+def edit():
+    global editor
+    editor = Tk()
+    editor.title("Update Data")
+
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    record_id = delete_box.get()
+
+    c.execute("SELECT * from entries WHERE oid =" + record_id)
+
+    records = c.fetchall()
+
+    global first_name_editor
+    global last_name_editor
+    global username_editor
+    global age_editor
+    global address_editor
+    global phone_number_editor
+    global school_editor
+    global score_editor
+    global gsecond
+    global daysecond
+    global yearsecond
+    global monthsecond
+
+    # creating labels and entries for update window
+
+    firsttt = Label(editor, text="FIRST NAME").grid(row=1, column=0, pady=20)
+    first_name_editor = Entry(editor)
+    first_name_editor.grid(row=1, column=1, pady=20)
+
+    lasttt = Label(editor, text="LAST NAME").grid(row=1, column=2, pady=20)
+    last_name_editor = Entry(editor)
+    last_name_editor.grid(row=1, column=3, pady=20)
+
+    userrr = Label(editor, text="USERNAME").grid(row=2, column=0, pady=20)
+    username_editor = Entry(editor)
+    username_editor.grid(row=2, column=1, pady=20)
+
+    dobbbb = Label(editor, text="DATE OF BIRTH").grid(row=2, column=2, pady=20)
+    monthsecond = StringVar()
+    daysecond = StringVar()
+    yearsecond = StringVar()
+
+    monthsecond = ttk.Combobox(editor, textvariable=mon, width=9)
+    monthsecond['values'] = months
+    monthsecond.current(0)
+    monthsecond.grid(row=2, column=3)
+
+    daysecond = ttk.Combobox(editor, textvariable=dy, width=3)
+    daysecond['values'] = days
+    daysecond.current(0)
+    daysecond.grid(row=2, column=4)
+
+    yearsecond = ttk.Combobox(editor, textvariable=yer, width=4)
+    yearsecond['values'] = years
+    yearsecond.current(0)
+    yearsecond.grid(row=2, column=5)
+
+
+    ageeeee = Label(editor, text="AGE").grid(row=3, column=0, pady=20)
+    age_editor = Entry(editor)
+    age_editor.grid(row=3, column=1, pady=20)
+
+    gennnn = Label(editor, text="GENDER").grid(row=3, column=2, pady=20)
+
+    gs= StringVar()
+    # gs.get()
+
+    gsecond = ttk.Combobox(editor, textvariable=gs, width=7)
+    gsecond['values'] = ["MALE","FEMALE"]
+    gsecond.current(0)
+    gsecond.grid(row=3, column=3)
+
+    # r11 = Radiobutton(editor, text="Male", variable=gsecond, value="M")
+    # r22 = Radiobutton(editor, text="Female", variable=gsecond, value="F")
+    # r11.grid(row=3, column=3)
+    # r22.grid(row=3, column=4)
+
+    addrsss = Label(editor, text="ADDRESS").grid(row=4, column=0, pady=20)
+    address_editor = Entry(editor)
+    address_editor.grid(row=4, column=1, pady=20)
+
+    phoneee = Label(editor, text="PHONE NUMBER").grid(row=4, column=2, pady=20)
+    phone_number_editor = Entry(editor)
+    phone_number_editor.grid(row=4, column=3, pady=20)
+
+    previousschoolll = Label(editor, text="PREVIOUS COLLEGE").grid(row=5, column=0, pady=20)
+    school_editor = Entry(editor)
+    school_editor.grid(row=5, column=1, pady=20)
+
+    marksss = Label(editor, text="GPA").grid(row=5, column=2, pady=20)
+    score_editor = Entry(editor)
+    score_editor.grid(row=5, column=3, pady=20)
+
+    for record in records:
+        first_name_editor.insert(0, record[0])
+        last_name_editor.insert(0, record[1])
+        username_editor.insert(0, record[2])
+        # date_of_birth_editor.insert(0, record[3])
+        age_editor.insert(0, record[4])
+        # gender_editor.insert(0, record[5])
+        address_editor.insert(0, record[6])
+        phone_number_editor.insert(0, record[7])
+        school_editor.insert(0, record[8])
+        score_editor.insert(0, record[9])
+
+        edit_btn = Button(editor, text="SAVE", command=update).grid(row=7, column=2, pady=20)
+
 # submit and query button
 submit_button = Button(root, text="submit", command=submit).place(x=560 , y=440)
 
+#update buttion
+update_btn = Button(root, text="Update", command=edit).place(x=690, y=605)
 
 conn.commit()
 conn.close()

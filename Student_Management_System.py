@@ -303,5 +303,18 @@ update_btn = Button(root, text="Update", command=edit).place(x=690, y=605)
 
 conn.commit()
 conn.close()
+# Name Editors add gareko
+global first_name_editor
+global last_name_editor
+global username_editor
+global age_editor
+global address_editor
+global phone_number_editor
+global school_editor
+global score_editor
+global gsecond
+global daysecond
+global yearsecond
+global monthsecond
 
 root.mainloop()

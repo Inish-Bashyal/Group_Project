@@ -62,17 +62,17 @@ dob = Label(root, text="DATE OF BIRTH", bg="#021524", fg="white").place(x=900, y
 month = ttk.Combobox(root, textvariable=mon, width=9)
 month.place(x=1020, y=230)
 month['values']= months
-
+month.current(0)
 
 day = ttk.Combobox(root, textvariable=dy, width=3)
 day.place(x=1130, y=230)
 day['values']=days
-
+day.current(0)
 
 year = ttk.Combobox(root, textvariable=yer, width=4)
 year.place(x=1190, y=230)
 year['values']=years
-
+year.current(0)
 
 agee = Label(root, text="AGE", bg="#021524", fg="white").place(x=500,y=280)
 age = Entry(root)

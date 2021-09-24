@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox, ttk
-#from PIL import ImageTk, Image
+from PIL import ImageTk, Image
 import sqlite3
 
 root = Tk()
@@ -9,6 +9,17 @@ root.title("Student Management System")
 root.maxsize(width=1400, height=800)
 root.minsize(width=1400, height=800)
 
+canvas = Canvas(root, width=1400, height=800)
+image = ImageTk.PhotoImage(Image.open("main_screen 2.jpg"))
+canvas.create_image(0, 0, anchor=NW, image=image)
+canvas.pack()
+
+login_image=PhotoImage(file="submit_button_228x32.png")
+showrecords=PhotoImage(file="show_records_button_226x32.png")
+update_image=PhotoImage(file="update_button_163x31.png")
+
+conn = sqlite3.connect("management.db")
+c = conn.cursor()
 conn = sqlite3.connect("management.db")
 c = conn.cursor()
 
@@ -144,6 +155,62 @@ def submit():
 
     conn.commit()
     conn.close()
+
+
+def query():
+    secondWindow = Tk()
+    secondWindow.title("DATA")
+    # secondWindow.geometry("1450x800")
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    c.execute("SELECT *, oid from entries")
+    records = c.fetchall()
+
+
+    tree = ttk.Treeview(secondWindow)
+    scroll_y = ttk.Scrollbar(orient=VERTICAL)
+    tree.configure(yscrollcommand=scroll_y.set)
+    tree["columns"] = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten")
+
+    tree.column("one",minwidth=0,width=100)
+    tree.column("two",minwidth=0,width=150)
+    tree.column("three",minwidth=0,width=150)
+    tree.column("four",minwidth=0,width=150)
+    tree.column("five",minwidth=0,width=70)
+    tree.column("six",minwidth=0,width=80)
+    tree.column("seven",minwidth=0,width=130)
+    tree.column("eight",minwidth=0,width=150)
+    tree.column("nine",minwidth=0,width=150)
+    tree.column("ten",minwidth=0,width=90)
+
+    tree.heading("one", text="First Name")
+    tree.heading("two", text="Last Name")
+    tree.heading("three", text="User Name")
+    tree.heading("four", text="Date Of Birth")
+    tree.heading("five", text="Age")
+    tree.heading("six", text="Gender")
+    tree.heading("seven", text="Address")
+    tree.heading("eight", text="Phone Number")
+    tree.heading("nine", text="Previous College")
+    tree.heading("ten", text="Score")
+
+    i=0
+    for row in records:
+        if row[10]%2==0:
+            tree.insert('', i,tags = ('oddrow',), text="Student " + str(row[10]),
+            values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        else:
+            tree.insert('', i,tags = ('evenrow',), text="Student " + str(row[10]),
+            values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        i = i + 1
+    tree.tag_configure('oddrow', background='white')
+    tree.tag_configure('evenrow', background='light green')
+    tree.pack()
+
+    conn.commit()
+    conn.close()
+    secondWindow.mainloop()
 
 def update():
     global gsecond
@@ -296,25 +363,12 @@ def edit():
         edit_btn = Button(editor, text="SAVE", command=update).grid(row=7, column=2, pady=20)
 
 # submit and query button
-submit_button = Button(root, text="submit", command=submit).place(x=560 , y=440)
+submit_button = Button(root, image=login_image, command=submit, height=32, width=228).place(x=560 , y=440)
+query_btn = Button(root, image=showrecords, command=query, height=32, width=226).place(x=1000 , y=440)
 
 #update buttion
-update_btn = Button(root, text="Update", command=edit).place(x=690, y=605)
-
+update_btn = Button(root, image=update_image, command=edit, width=163, height=31).place(x=690, y=605)
 conn.commit()
 conn.close()
-# Name Editors add gareko
-global first_name_editor
-global last_name_editor
-global username_editor
-global age_editor
-global address_editor
-global phone_number_editor
-global school_editor
-global score_editor
-global gsecond
-global daysecond
-global yearsecond
-global monthsecond
 
 root.mainloop()

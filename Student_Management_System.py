@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, ttk
-#from PIL import ImageTk, Image
 import sqlite3
-
+"#021524"
 root = Tk()
 root.title("Student Management System")
 # root.geometry("1400x800")
@@ -30,17 +29,15 @@ c = conn.cursor()
 
 
 # creating labels and entries
-
-
-first = Label(root, text="FIRST NAME", bg="#021524", fg="white").place(x=500, y=180)
+first = Label(root, text="FIRST NAME", bg="black", fg="white").place(x=500, y=180)
 first_name = Entry(root)
 first_name.place(x=650,y=177)
 
-last = Label(root, text="LAST NAME", bg="#021524", fg="white").place(x=900, y=180)
+last = Label(root, text="LAST NAME", bg="black", fg="white").place(x=900, y=180)
 last_name = Entry(root)
 last_name.place(x=1020, y=177)
 
-user = Label(root, text="USERNAME", bg="#021524", fg="white").place(x=500, y=230)
+user = Label(root, text="USERNAME", bg="black", fg="white").place(x=500, y=230)
 username = Entry(root)
 username.place(x=650, y=227)
 
@@ -58,7 +55,7 @@ mon = StringVar()
 dy = StringVar()
 yer = StringVar()
 
-dob = Label(root, text="DATE OF BIRTH", bg="#021524", fg="white").place(x=900, y=230)
+dob = Label(root, text="DATE OF BIRTH", bg="black", fg="white").place(x=900, y=230)
 month = ttk.Combobox(root, textvariable=mon, width=9)
 month.place(x=1020, y=230)
 month['values']= months
@@ -74,31 +71,31 @@ year.place(x=1190, y=230)
 year['values']=years
 year.current(0)
 
-agee = Label(root, text="AGE", bg="#021524", fg="white").place(x=500,y=280)
+agee = Label(root, text="AGE", bg="black", fg="white").place(x=500,y=280)
 age = Entry(root)
 age.place(x=650, y=277)
 
 g = StringVar()
 g.get()
-gen = Label(root, text="GENDER", bg="#021524", fg="white").place(x=900, y=280)
-r1 = Radiobutton(root, text="Male", variable=g, value="M", bg="#021524", fg="white")
-r2 = Radiobutton(root, text="Female", variable=g, value="F", bg="#021524", fg="white")
+gen = Label(root, text="GENDER", bg="black", fg="white").place(x=900, y=280)
+r1 = Radiobutton(root, text="Male", variable=g, value="M", bg="black", fg="white")
+r2 = Radiobutton(root, text="Female", variable=g, value="F", bg="black", fg="white")
 r1.place(x=1020, y=280)
 r2.place(x=1090 , y=280)
 
-addrs = Label(root, text="ADDRESS", bg="#021524", fg="white").place(x=500, y=330)
+addrs = Label(root, text="ADDRESS", bg="black", fg="white").place(x=500, y=330)
 address = Entry(root)
 address.place(x=650, y=327)
 
-phone = Label(root, text="PHONE NUMBER", bg="#021524", fg="white").place(x=900, y=330)
+phone = Label(root, text="PHONE NUMBER", bg="black", fg="white").place(x=900, y=330)
 phone_number = Entry(root)
 phone_number.place(x=1020, y=327)
 
-previousschool = Label(root, text="PREVIOUS COLLEGE", bg="#021524", fg="white").place(x=500, y=380)
+previousschool = Label(root, text="PREVIOUS COLLEGE", bg="black", fg="white").place(x=500, y=380)
 school = Entry(root)
 school.place(x=650 ,y=377)
 
-marks = Label(root, text="GPA", bg="#021524", fg="white").place(x=900, y=380)
+marks = Label(root, text="GPA", bg="black", fg="white").place(x=900, y=380)
 score = Entry(root)
 score.place(x=1020, y=377)
 
@@ -303,18 +300,5 @@ update_btn = Button(root, text="Update", command=edit).place(x=690, y=605)
 
 conn.commit()
 conn.close()
-# Name Editors add gareko
-global first_name_editor
-global last_name_editor
-global username_editor
-global age_editor
-global address_editor
-global phone_number_editor
-global school_editor
-global score_editor
-global gsecond
-global daysecond
-global yearsecond
-global monthsecond
 
 root.mainloop()

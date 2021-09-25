@@ -10,7 +10,7 @@ root.maxsize(width=1400, height=800)
 root.minsize(width=1400, height=800)
 
 canvas = Canvas(root, width=1400, height=800)
-image = ImageTk.PhotoImage(Image.open("main_screen.png"))
+image = ImageTk.PhotoImage(Image.open("main_screen 2.jpg"))
 canvas.create_image(0, 0, anchor=NW, image=image)
 canvas.pack()
 

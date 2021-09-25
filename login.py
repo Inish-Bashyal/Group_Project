@@ -36,10 +36,12 @@ def loginform():
     login_screen = Tk()
     login_screen.title("LOG IN")
 
+    canvas=Canvas(login_screen, width=700, height=500)
+    image=ImageTk.PhotoImage(Image.open("login_page.jpg"))
+    canvas.create_image(0,0,anchor=NW, image=image)
+    canvas.pack()
 
-
-
-
+    login_pic=PhotoImage(file="continueicon.png")
     login_screen.maxsize(width=700, height=500)
     login_screen.minsize(width=700, height=500)
 
@@ -64,7 +66,7 @@ def loginform():
     #this label i used for displaying the message of success failed or any error
     # Label(login_screen, text="", textvariable=message).place(x=170,y=240)
 
-    login_btn=Button(login_screen, text="Login", command=login).place(x=400,y=300)
+    login_btn=Button(login_screen, image=login_pic, command=login).place(x=400,y=300)
 
 
 

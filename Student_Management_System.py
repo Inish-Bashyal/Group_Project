@@ -210,74 +210,8 @@ def edit():
 
     # creating labels and entries for update window
 
-    firsttt = Label(editor, text="FIRST NAME").grid(row=1, column=0, pady=20)
-    first_name_editor = Entry(editor)
-    first_name_editor.grid(row=1, column=1, pady=20)
 
-    lasttt = Label(editor, text="LAST NAME").grid(row=1, column=2, pady=20)
-    last_name_editor = Entry(editor)
-    last_name_editor.grid(row=1, column=3, pady=20)
-
-    userrr = Label(editor, text="USERNAME").grid(row=2, column=0, pady=20)
-    username_editor = Entry(editor)
-    username_editor.grid(row=2, column=1, pady=20)
-
-    dobbbb = Label(editor, text="DATE OF BIRTH").grid(row=2, column=2, pady=20)
-    monthsecond = StringVar()
-    daysecond = StringVar()
-    yearsecond = StringVar()
-
-    monthsecond = ttk.Combobox(editor, textvariable=mon, width=9)
-    monthsecond['values'] = months
-    monthsecond.current(0)
-    monthsecond.grid(row=2, column=3)
-
-    daysecond = ttk.Combobox(editor, textvariable=dy, width=3)
-    daysecond['values'] = days
-    daysecond.current(0)
-    daysecond.grid(row=2, column=4)
-
-    yearsecond = ttk.Combobox(editor, textvariable=yer, width=4)
-    yearsecond['values'] = years
-    yearsecond.current(0)
-    yearsecond.grid(row=2, column=5)
-
-
-    ageeeee = Label(editor, text="AGE").grid(row=3, column=0, pady=20)
-    age_editor = Entry(editor)
-    age_editor.grid(row=3, column=1, pady=20)
-
-    gennnn = Label(editor, text="GENDER").grid(row=3, column=2, pady=20)
-
-    gs= StringVar()
-    # gs.get()
-
-    gsecond = ttk.Combobox(editor, textvariable=gs, width=7)
-    gsecond['values'] = ["MALE","FEMALE"]
-    gsecond.current(0)
-    gsecond.grid(row=3, column=3)
-
-    # r11 = Radiobutton(editor, text="Male", variable=gsecond, value="M")
-    # r22 = Radiobutton(editor, text="Female", variable=gsecond, value="F")
-    # r11.grid(row=3, column=3)
-    # r22.grid(row=3, column=4)
-
-    addrsss = Label(editor, text="ADDRESS").grid(row=4, column=0, pady=20)
-    address_editor = Entry(editor)
-    address_editor.grid(row=4, column=1, pady=20)
-
-    phoneee = Label(editor, text="PHONE NUMBER").grid(row=4, column=2, pady=20)
-    phone_number_editor = Entry(editor)
-    phone_number_editor.grid(row=4, column=3, pady=20)
-
-    previousschoolll = Label(editor, text="PREVIOUS COLLEGE").grid(row=5, column=0, pady=20)
-    school_editor = Entry(editor)
-    school_editor.grid(row=5, column=1, pady=20)
-
-    marksss = Label(editor, text="GPA").grid(row=5, column=2, pady=20)
-    score_editor = Entry(editor)
-    score_editor.grid(row=5, column=3, pady=20)
-
+#here up
     for record in records:
         first_name_editor.insert(0, record[0])
         last_name_editor.insert(0, record[1])
@@ -295,7 +229,7 @@ def edit():
 # submit and query button
 submit_button = Button(root, text="submit", command=submit).place(x=560 , y=440)
 
-#update buttion
+#update button
 update_btn = Button(root, text="Update", command=edit).place(x=690, y=605)
 
 conn.commit()

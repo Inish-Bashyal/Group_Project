@@ -20,8 +20,6 @@ update_image=PhotoImage(file="update_button_163x31.png")
 
 conn = sqlite3.connect("management.db")
 c = conn.cursor()
-conn = sqlite3.connect("management.db")
-c = conn.cursor()
 
 # creating tables
 #
@@ -119,12 +117,15 @@ delete_box = Entry(root, width=25)
 delete_box.place(x=570, y=557)
 
 
+
+
+
 def submit():
-    conn = sqlite3.connect("management.db")
-    c = conn.cursor()
+        conn = sqlite3.connect("management.db")
+        c = conn.cursor()
 
 
-    c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
+        c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
               " :phone_number, :school, :score)", {
                   "first_name": first_name.get(),
                   "last_name": last_name.get(),
@@ -140,21 +141,19 @@ def submit():
 
 
 
-    first_name.delete(0, END)
-    last_name.delete(0, END)
-    username.delete(0, END)
-    # date_of_birth.delete(0, END)
-    age.delete(0, END)
-    # g.delete(0, END)
-    address.delete(0, END)
-    phone_number.delete(0, END)
-    school.delete(0, END)
-    score.delete(0, END)
+        first_name.delete(0, END)
+        last_name.delete(0, END)
+        username.delete(0, END)
+        age.delete(0, END)
+        address.delete(0, END)
+        phone_number.delete(0, END)
+        school.delete(0, END)
+        score.delete(0, END)
 
-    messagebox.showinfo("Success", "Data added successfully")
+        messagebox.showinfo("Success", "Data added successfully")
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
 
 
 def query():

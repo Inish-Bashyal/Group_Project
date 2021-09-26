@@ -212,6 +212,19 @@ def query():
     conn.close()
     secondWindow.mainloop()
 
+
+def delete():
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    c.execute("DELETE from entries WHERE oid =" + delete_box.get())
+    messagebox.showinfo("Success", "Successfully deleted")
+    delete_box.delete(0, END)
+    conn.commit()
+    conn.close()
+
+delete_btn = Button(root, text="delete", command=delete).place(x=440, y=605)
+
 def update():
     global gsecond
     conn = sqlite3.connect("management.db")
@@ -361,6 +374,67 @@ def edit():
         score_editor.insert(0, record[9])
 
         edit_btn = Button(editor, text="SAVE", command=update).grid(row=7, column=2, pady=20)
+
+
+
+def search():
+
+    thirdwindow=Tk()
+
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    searchrecord=searchentry.get()
+
+    c.execute("SELECT * FROM entries WHERE oid =" + searchrecord)
+    rec = c.fetchall()
+
+    # print(rec)
+
+    tree = ttk.Treeview(thirdwindow)
+    tree["columns"] = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten")
+    tree.column("one", minwidth=0, width=100)
+    tree.column("two", minwidth=0, width=150)
+    tree.column("three", minwidth=0, width=150)
+    tree.column("four", minwidth=0, width=150)
+    tree.column("five", minwidth=0, width=70)
+    tree.column("six", minwidth=0, width=80)
+    tree.column("seven", minwidth=0, width=130)
+    tree.column("eight", minwidth=0, width=150)
+    tree.column("nine", minwidth=0, width=150)
+    tree.column("ten", minwidth=0, width=90)
+
+
+
+
+    tree.heading("one", text="First Name")
+    tree.heading("two", text="Last Name")
+    tree.heading("three", text="User Name")
+    tree.heading("four", text="Date Of Birth")
+    tree.heading("five", text="Age")
+    tree.heading("six", text="Gender")
+    tree.heading("seven", text="Address")
+    tree.heading("eight", text="Phone Number")
+    tree.heading("nine", text="Previous College")
+    tree.heading("ten", text="Score")
+
+    i=0
+    for row in rec:
+        tree.insert('', i, text="Student " + str(searchrecord),
+                    values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        i+=1
+
+    tree.pack()
+    conn.commit()
+    conn.close()
+    thirdwindow.mainloop()
+
+
+
+
+
+search_btn=Button(root, text="search", command=search).place(x=1070, y=605)
+
 
 # submit and query button
 submit_button = Button(root, image=login_image, command=submit, height=32, width=228).place(x=560 , y=440)

@@ -9,6 +9,7 @@ root.title("Student Management System")
 root.maxsize(width=1400, height=800)
 root.minsize(width=1400, height=800)
 
+
 canvas = Canvas(root, width=1400, height=800)
 image = ImageTk.PhotoImage(Image.open("main_screen 2.jpg"))
 canvas.create_image(0, 0, anchor=NW, image=image)
@@ -16,7 +17,9 @@ canvas.pack()
 
 login_image=PhotoImage(file="submit_button_228x32.png")
 showrecords=PhotoImage(file="show_records_button_226x32.png")
+searchimage=PhotoImage(file="search_button_230x32.png")
 update_image=PhotoImage(file="update_button_163x31.png")
+delete_image=PhotoImage(file="delete_button_160x31.png")
 
 conn = sqlite3.connect("management.db")
 c = conn.cursor()
@@ -90,8 +93,8 @@ age.place(x=650, y=277)
 g = StringVar()
 g.get()
 gen = Label(root, text="GENDER", bg="#021524", fg="white").place(x=900, y=280)
-r1 = Radiobutton(root, text="Male", variable=g, value="M", bg="#021524", fg="white")
-r2 = Radiobutton(root, text="Female", variable=g, value="F", bg="#021524", fg="white")
+r1 = Radiobutton(root, text="Male", variable=g, value="MALE", bg="#021524", fg="white")
+r2 = Radiobutton(root, text="Female", variable=g, value="FEMALE", bg="#021524", fg="white")
 r1.place(x=1020, y=280)
 r2.place(x=1090 , y=280)
 
@@ -111,21 +114,12 @@ marks = Label(root, text="GPA", bg="#021524", fg="white").place(x=900, y=380)
 score = Entry(root)
 score.place(x=1020, y=377)
 
-# delete entry and label
-deletebox = Label(root, text='DELETE/UPDATE' ,bg="#052b36", fg="white").place(x=440, y=560)
-delete_box = Entry(root, width=25)
-delete_box.place(x=570, y=557)
-
-
-
-
-
 def submit():
-        conn = sqlite3.connect("management.db")
-        c = conn.cursor()
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
 
 
-        c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
+    c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
               " :phone_number, :school, :score)", {
                   "first_name": first_name.get(),
                   "last_name": last_name.get(),
@@ -141,19 +135,21 @@ def submit():
 
 
 
-        first_name.delete(0, END)
-        last_name.delete(0, END)
-        username.delete(0, END)
-        age.delete(0, END)
-        address.delete(0, END)
-        phone_number.delete(0, END)
-        school.delete(0, END)
-        score.delete(0, END)
+    first_name.delete(0, END)
+    last_name.delete(0, END)
+    username.delete(0, END)
+    # date_of_birth.delete(0, END)
+    age.delete(0, END)
+    # g.delete(0, END)
+    address.delete(0, END)
+    phone_number.delete(0, END)
+    school.delete(0, END)
+    score.delete(0, END)
 
-        messagebox.showinfo("Success", "Data added successfully")
+    messagebox.showinfo("Success", "Data added successfully")
 
-        conn.commit()
-        conn.close()
+    conn.commit()
+    conn.close()
 
 
 def query():
@@ -210,6 +206,32 @@ def query():
     conn.commit()
     conn.close()
     secondWindow.mainloop()
+
+
+# submit and query button
+submit_button = Button(root, image=login_image, command=submit, height=32, width=228).place(x=560 , y=440)
+
+query_btn = Button(root, image=showrecords, command=query, height=32, width=226).place(x=1000 , y=440)
+
+# delete entry and label
+deletebox = Label(root, text='DELETE/UPDATE' ,bg="#052b36", fg="white").place(x=440, y=560)
+delete_box = Entry(root, width=25)
+delete_box.place(x=570, y=557)
+
+
+def delete():
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    c.execute("DELETE from entries WHERE oid =" + delete_box.get())
+    messagebox.showinfo("Success", "Successfully deleted")
+    delete_box.delete(0, END)
+    conn.commit()
+    conn.close()
+
+
+delete_btn = Button(root, image=delete_image, command=delete, height=31, width=160).place(x=440, y=605)
+
 
 def update():
     global gsecond
@@ -361,12 +383,74 @@ def edit():
 
         edit_btn = Button(editor, text="SAVE", command=update).grid(row=7, column=2, pady=20)
 
-# submit and query button
-submit_button = Button(root, image=login_image, command=submit, height=32, width=228).place(x=560 , y=440)
-query_btn = Button(root, image=showrecords, command=query, height=32, width=226).place(x=1000 , y=440)
 
-#update buttion
+searchlabel=Label(root, text="Search" ,bg="#052b36", fg="white").place(x=950, y=560)
+searchentry=Entry(root, width=25)
+searchentry.place(x=1050, y=557)
+
+
+
+
+def search():
+
+    thirdwindow=Tk()
+
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    searchrecord=searchentry.get()
+
+    c.execute("SELECT * FROM entries WHERE oid =" + searchrecord)
+    rec = c.fetchall()
+
+    # print(rec)
+
+    tree = ttk.Treeview(thirdwindow)
+    tree["columns"] = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten")
+    tree.column("one", minwidth=0, width=100)
+    tree.column("two", minwidth=0, width=150)
+    tree.column("three", minwidth=0, width=150)
+    tree.column("four", minwidth=0, width=150)
+    tree.column("five", minwidth=0, width=70)
+    tree.column("six", minwidth=0, width=80)
+    tree.column("seven", minwidth=0, width=130)
+    tree.column("eight", minwidth=0, width=150)
+    tree.column("nine", minwidth=0, width=150)
+    tree.column("ten", minwidth=0, width=90)
+
+
+
+
+    tree.heading("one", text="First Name")
+    tree.heading("two", text="Last Name")
+    tree.heading("three", text="User Name")
+    tree.heading("four", text="Date Of Birth")
+    tree.heading("five", text="Age")
+    tree.heading("six", text="Gender")
+    tree.heading("seven", text="Address")
+    tree.heading("eight", text="Phone Number")
+    tree.heading("nine", text="Previous College")
+    tree.heading("ten", text="Score")
+
+    i=0
+    for row in rec:
+        tree.insert('', i, text="Student " + str(searchrecord),
+                    values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        i+=1
+
+    tree.pack()
+    conn.commit()
+    conn.close()
+    thirdwindow.mainloop()
+
+
+
+
+
+search_btn=Button(root, image=searchimage, command=search, width=230, height=32).place(x=1070, y=605)
+
 update_btn = Button(root, image=update_image, command=edit, width=163, height=31).place(x=690, y=605)
+
 conn.commit()
 conn.close()
 

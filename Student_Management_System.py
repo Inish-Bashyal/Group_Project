@@ -42,8 +42,6 @@ c = conn.cursor()
 
 
 # creating labels and entries
-
-
 first = Label(root, text="FIRST NAME", bg="#021524", fg="white").place(x=500, y=180)
 first_name = Entry(root)
 first_name.place(x=650,y=177)
@@ -74,17 +72,17 @@ dob = Label(root, text="DATE OF BIRTH", bg="#021524", fg="white").place(x=900, y
 month = ttk.Combobox(root, textvariable=mon, width=9)
 month.place(x=1020, y=230)
 month['values']= months
-month.current(0)
+# month.current(0)
 
 day = ttk.Combobox(root, textvariable=dy, width=3)
 day.place(x=1130, y=230)
 day['values']=days
-day.current(0)
+# day.current(0)
 
 year = ttk.Combobox(root, textvariable=yer, width=4)
 year.place(x=1190, y=230)
 year['values']=years
-year.current(0)
+# year.current(0)
 
 agee = Label(root, text="AGE", bg="#021524", fg="white").place(x=500,y=280)
 age = Entry(root)
@@ -106,6 +104,7 @@ phone = Label(root, text="PHONE NUMBER", bg="#021524", fg="white").place(x=900, 
 phone_number = Entry(root)
 phone_number.place(x=1020, y=327)
 
+
 previousschool = Label(root, text="PREVIOUS COLLEGE", bg="#021524", fg="white").place(x=500, y=380)
 school = Entry(root)
 school.place(x=650 ,y=377)
@@ -114,12 +113,31 @@ marks = Label(root, text="GPA", bg="#021524", fg="white").place(x=900, y=380)
 score = Entry(root)
 score.place(x=1020, y=377)
 
+
+
+
 def submit():
-    conn = sqlite3.connect("management.db")
-    c = conn.cursor()
+    a = first_name.get()
+    b = last_name.get()
+    d = address.get()
+    e = phone_number.get()
+    f = school.get()
+    h = score.get()
+    i = age.get()
+    j = yer.get()
+    k = mon.get()
+    l = dy.get()
+    m = g.get()
 
+    list = [a, b, d, e, f, h, i, j, k, l, m]
+    if (len(list[0])==0 or len(list[1])==0 or len(list[2])==0 or len(list[3])==0 or len(list[4])==0 or len(list[5])==0 or len(list[6])==0 or len(list[7])==0 or len(list[8])==0 or len(list[9])==0 or len(list[10])==0):
+        messagebox.showerror("error", "all fields required")
+    else:
 
-    c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
+        conn = sqlite3.connect("management.db")
+        c = conn.cursor()
+
+        c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
               " :phone_number, :school, :score)", {
                   "first_name": first_name.get(),
                   "last_name": last_name.get(),
@@ -135,21 +153,21 @@ def submit():
 
 
 
-    first_name.delete(0, END)
-    last_name.delete(0, END)
-    username.delete(0, END)
-    # date_of_birth.delete(0, END)
-    age.delete(0, END)
-    # g.delete(0, END)
-    address.delete(0, END)
-    phone_number.delete(0, END)
-    school.delete(0, END)
-    score.delete(0, END)
+        first_name.delete(0, END)
+        last_name.delete(0, END)
+        username.delete(0, END)
+        # date_of_birth.delete(0, END)
+        age.delete(0, END)
+        # g.delete(0, END)
+        address.delete(0, END)
+        phone_number.delete(0, END)
+        school.delete(0, END)
+        score.delete(0, END)
 
-    messagebox.showinfo("Success", "Data added successfully")
+        messagebox.showinfo("Success", "Data added successfully")
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
 
 
 def query():
@@ -207,12 +225,6 @@ def query():
     conn.close()
     secondWindow.mainloop()
 
-
-# submit and query button
-submit_button = Button(root, image=login_image, command=submit, height=32, width=228).place(x=560 , y=440)
-
-query_btn = Button(root, image=showrecords, command=query, height=32, width=226).place(x=1000 , y=440)
-
 # delete entry and label
 deletebox = Label(root, text='DELETE/UPDATE' ,bg="#052b36", fg="white").place(x=440, y=560)
 delete_box = Entry(root, width=25)
@@ -228,9 +240,7 @@ def delete():
     delete_box.delete(0, END)
     conn.commit()
     conn.close()
-
-
-delete_btn = Button(root, image=delete_image, command=delete, height=31, width=160).place(x=440, y=605)
+    query()
 
 
 def update():
@@ -269,6 +279,7 @@ def update():
     delete_box.delete(0, END)
     conn.commit()
     conn.close()
+    query()
     editor.destroy()
 
 
@@ -444,12 +455,17 @@ def search():
     thirdwindow.mainloop()
 
 
+#buttons made using image
+submit_button = Button(root, image=login_image, command=submit, height=32, width=228).place(x=560 , y=440)
 
-
+query_btn = Button(root, image=showrecords, command=query, height=32, width=226).place(x=1000 , y=440)
 
 search_btn=Button(root, image=searchimage, command=search, width=230, height=32).place(x=1070, y=605)
 
 update_btn = Button(root, image=update_image, command=edit, width=163, height=31).place(x=690, y=605)
+
+delete_btn = Button(root, image=delete_image, command=delete, height=31, width=160).place(x=440, y=605)
+
 
 conn.commit()
 conn.close()

@@ -3,24 +3,27 @@ from tkinter import messagebox, ttk
 from PIL import ImageTk, Image
 import sqlite3
 
+#creating a window named as root and giving it title and maximum and mimimum size
 root = Tk()
 root.title("Student Management System")
 # root.geometry("1400x800")
 root.maxsize(width=1400, height=800)
 root.minsize(width=1400, height=800)
 
-
+#putting background as image using canvas and ImageTk
 canvas = Canvas(root, width=1400, height=800)
 image = ImageTk.PhotoImage(Image.open("main_screen 2.jpg"))
 canvas.create_image(0, 0, anchor=NW, image=image)
 canvas.pack()
 
+#all buttons images named
 login_image=PhotoImage(file="submit_button_228x32.png")
 showrecords=PhotoImage(file="show_records_button_226x32.png")
 searchimage=PhotoImage(file="search_button_230x32.png")
 update_image=PhotoImage(file="update_button_163x31.png")
 delete_image=PhotoImage(file="delete_button_160x31.png")
 
+#connecting to the database
 conn = sqlite3.connect("management.db")
 c = conn.cursor()
 
@@ -115,8 +118,8 @@ score.place(x=1020, y=377)
 
 
 
-
 def submit():
+    #taking all the values from entry so that if any entry is left it shows error message
     a = first_name.get()
     b = last_name.get()
     d = address.get()
@@ -129,7 +132,9 @@ def submit():
     l = dy.get()
     m = g.get()
 
+    #creating a list for holding entries values
     list = [a, b, d, e, f, h, i, j, k, l, m]
+    #checking the lenght of values ..... if it is 0 it shows error message and if not it connects to the database and add records
     if (len(list[0])==0 or len(list[1])==0 or len(list[2])==0 or len(list[3])==0 or len(list[4])==0 or len(list[5])==0 or len(list[6])==0 or len(list[7])==0 or len(list[8])==0 or len(list[9])==0 or len(list[10])==0):
         messagebox.showerror("error", "all fields required")
     else:
@@ -171,21 +176,23 @@ def submit():
 
 
 def query():
+    #created a second window for displaying result
     secondWindow = Tk()
     secondWindow.title("DATA")
-    # secondWindow.geometry("1450x800")
+    secondWindow.maxsize(width=1400, height=300)
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
 
     c.execute("SELECT *, oid from entries")
     records = c.fetchall()
 
-
+    #used tree for displaying reocrds in table
     tree = ttk.Treeview(secondWindow)
+    #created a scrollbarr
     scroll_y = ttk.Scrollbar(orient=VERTICAL)
     tree.configure(yscrollcommand=scroll_y.set)
     tree["columns"] = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten")
-
+    #adjusting width of each tree column
     tree.column("one",minwidth=0,width=100)
     tree.column("two",minwidth=0,width=150)
     tree.column("three",minwidth=0,width=150)
@@ -197,6 +204,7 @@ def query():
     tree.column("nine",minwidth=0,width=150)
     tree.column("ten",minwidth=0,width=90)
 
+    #headings of each column
     tree.heading("one", text="First Name")
     tree.heading("two", text="Last Name")
     tree.heading("three", text="User Name")
@@ -209,16 +217,17 @@ def query():
     tree.heading("ten", text="Score")
 
     i=0
+    #inserting records in tree
     for row in records:
-        if row[10]%2==0:
+        if i%2==0:
             tree.insert('', i,tags = ('oddrow',), text="Student " + str(row[10]),
             values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
         else:
             tree.insert('', i,tags = ('evenrow',), text="Student " + str(row[10]),
             values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
         i = i + 1
-    tree.tag_configure('oddrow', background='white')
-    tree.tag_configure('evenrow', background='light green')
+    tree.tag_configure('oddrow', background='light green')
+    tree.tag_configure('evenrow', background='white')
     tree.pack()
 
     conn.commit()
@@ -244,7 +253,6 @@ def delete():
 
 
 def update():
-    global gsecond
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
 
@@ -359,11 +367,6 @@ def edit():
     gsecond.current(0)
     gsecond.grid(row=3, column=3)
 
-    # r11 = Radiobutton(editor, text="Male", variable=gsecond, value="M")
-    # r22 = Radiobutton(editor, text="Female", variable=gsecond, value="F")
-    # r11.grid(row=3, column=3)
-    # r22.grid(row=3, column=4)
-
     addrsss = Label(editor, text="ADDRESS").grid(row=4, column=0, pady=20)
     address_editor = Entry(editor)
     address_editor.grid(row=4, column=1, pady=20)
@@ -384,9 +387,8 @@ def edit():
         first_name_editor.insert(0, record[0])
         last_name_editor.insert(0, record[1])
         username_editor.insert(0, record[2])
-        # date_of_birth_editor.insert(0, record[3])
         age_editor.insert(0, record[4])
-        # gender_editor.insert(0, record[5])
+        gsecond.set(record[5])
         address_editor.insert(0, record[6])
         phone_number_editor.insert(0, record[7])
         school_editor.insert(0, record[8])

@@ -63,8 +63,7 @@ def loginform():
     loginpassword = Label(login_screen, text="PASSWORD", font=("Sylfaen", 14), fg="BLACK", bg="white").place(x=400, y=200)
     e2=Entry(login_screen, show="*", bg="#db38c5", width=25)
     e2.place(x=400, y=230)
-    #this label i used for displaying the message of success failed or any error
-    # Label(login_screen, text="", textvariable=message).place(x=170,y=240)
+
 
     login_btn=Button(login_screen, image=login_pic, command=login).place(x=400,y=300)
 

@@ -142,7 +142,45 @@ def submit():
     conn.commit()
     conn.close()
 
-#function here
+
+
+def update():
+    global gsecond
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    record_id = delete_box.get()
+
+    c.execute("""UPDATE entries SET
+    first_name = :frst ,
+    last_name = :lst,
+    username = :usr,
+    date_of_birth = :dobsecond,
+    age = :agesecond,
+    gender = :gensecond,
+    address = :addrsecond,
+    phone_number = :phonesecond,
+    school = :schoolsecond,
+    score = :scoresecond
+    WHERE oid = :oid""", {
+        'frst': first_name_editor.get(),
+        'lst': last_name_editor.get(),
+        'usr': username_editor.get(),
+        'dobsecond': monthsecond.get() + "/" + daysecond.get() + "/" + yearsecond.get(),
+        'agesecond': age_editor.get(),
+        'gensecond': gsecond.get(),
+        'addrsecond': address_editor.get(),
+        'phonesecond': phone_number_editor.get(),
+        'schoolsecond': school_editor.get(),
+        'scoresecond': score_editor.get(),
+        'oid': record_id
+
+    })
+    messagebox.showinfo("Success", "Data successfully modified")
+    delete_box.delete(0, END)
+    conn.commit()
+    conn.close()
+    editor.destroy()
 
 def edit():
     global editor
@@ -240,7 +278,7 @@ def edit():
     score_editor.grid(row=5, column=3, pady=20)
 
 
-#here up
+
     for record in records:
         first_name_editor.insert(0, record[0])
         last_name_editor.insert(0, record[1])

@@ -135,8 +135,10 @@ def submit():
     #creating a list for holding entries values
     list = [a, b, d, e, f, h, i, j, k, l, m]
     #checking the lenght of values ..... if it is 0 it shows error message and if not it connects to the database and add records
-    if (len(list[0])==0 or len(list[1])==0 or len(list[2])==0 or len(list[3])==0 or len(list[4])==0 or len(list[5])==0 or len(list[6])==0 or len(list[7])==0 or len(list[8])==0 or len(list[9])==0 or len(list[10])==0):
-        messagebox.showerror("error", "all fields required")
+    if (len(list[0]) == 0 or len(list[1]) == 0 or len(list[2]) == 0 or len(list[3]) == 0 or len(list[4]) == 0 or len(
+            list[5]) == 0 or len(list[6]) == 0 or len(list[7]) == 0 or len(list[8]) == 0 or len(list[9]) == 0 or len(
+            list[10]) == 0):
+        messagebox.showerror("ERROR","ALL FIELDS REQUIRED")
     else:
 
         conn = sqlite3.connect("management.db")
@@ -253,23 +255,44 @@ def delete():
 
 
 def update():
-    conn = sqlite3.connect("management.db")
-    c = conn.cursor()
+    a = first_name_editor.get()
+    b = last_name_editor.get()
+    d = address_editor.get()
+    e = phone_number_editor.get()
+    f = school_editor.get()
+    h = score_editor.get()
+    i = age_editor.get()
+    j = yearsecond.get()
+    k = monthsecond.get()
+    l = daysecond.get()
+    m = gsecond.get()
 
-    record_id = delete_box.get()
+    #creating a list for holding entries values
+    list = [a, b, d, e, f, h, i, j, k, l, m]
 
-    c.execute("""UPDATE entries SET
-    first_name = :frst ,
-    last_name = :lst,
-    username = :usr,
-    date_of_birth = :dobsecond,
-    age = :agesecond,
-    gender = :gensecond,
-    address = :addrsecond,
-    phone_number = :phonesecond,
-    school = :schoolsecond,
-    score = :scoresecond
-    WHERE oid = :oid""", {
+    # checking the lenght of values ..... if it is 0 it shows error message and if not it connects to the database and add records
+    if (len(list[0]) == 0 or len(list[1]) == 0 or len(list[2]) == 0 or len(list[3]) == 0 or len(list[4]) == 0 or len(
+            list[5]) == 0 or len(list[6]) == 0 or len(list[7]) == 0 or len(list[8]) == 0 or len(list[9]) == 0 or len(
+            list[10]) == 0):
+        messagebox.showerror("ERROR","ALL FIELDS REQUIRED")
+    else:
+        conn = sqlite3.connect("management.db")
+        c = conn.cursor()
+
+        record_id = delete_box.get()
+
+        c.execute("""UPDATE entries SET
+        first_name = :frst ,
+        last_name = :lst,
+        username = :usr,
+        date_of_birth = :dobsecond,
+        age = :agesecond,
+        gender = :gensecond,
+        address = :addrsecond,
+        phone_number = :phonesecond,
+        school = :schoolsecond,
+        score = :scoresecond
+        WHERE oid = :oid""", {
         'frst': first_name_editor.get(),
         'lst': last_name_editor.get(),
         'usr': username_editor.get(),
@@ -282,13 +305,13 @@ def update():
         'scoresecond': score_editor.get(),
         'oid': record_id
 
-    })
-    messagebox.showinfo("Success", "Data successfully modified")
-    delete_box.delete(0, END)
-    conn.commit()
-    conn.close()
-    query()
-    editor.destroy()
+        })
+        messagebox.showinfo("Success", "Data successfully modified")
+        delete_box.delete(0, END)
+        conn.commit()
+        conn.close()
+        query()
+        editor.destroy()
 
 
 def edit():

@@ -49,7 +49,7 @@
       <recent name="C:\Users\acer\PycharmProjects\pythonProject9" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for testiiing.test_empty">
+  <component name="RunManager" selected="Python.Student_Management_System (1)">
     <configuration name="Student_Management_System (1)" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="pythonProject9" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -143,9 +143,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.login" />
         <item itemvalue="Python tests.Python tests for testiiing.test_empty" />
         <item itemvalue="Python tests.Python tests for testiiing.Test_Database" />
-        <item itemvalue="Python.login" />
       </list>
     </recent_temporary>
   </component>

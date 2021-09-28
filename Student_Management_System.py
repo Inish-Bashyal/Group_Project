@@ -181,7 +181,7 @@ def query():
     #created a second window for displaying result
     secondWindow = Tk()
     secondWindow.title("DATA")
-    secondWindow.maxsize(width=1400, height=300)
+    secondWindow.maxsize(width=1400, height=200)
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
 

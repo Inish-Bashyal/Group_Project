@@ -243,6 +243,10 @@ delete_box.place(x=570, y=557)
 
 
 def delete():
+ a=delete_box.get()
+ if a=="":
+    messagebox.showerror("Error","Give the id of the student you want to delete")
+ else:
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
 
@@ -308,21 +312,26 @@ def update():
         })
         messagebox.showinfo("Success", "Data successfully modified")
         delete_box.delete(0, END)
+        editor.destroy()
         conn.commit()
         conn.close()
         query()
-        editor.destroy()
 
 
 def edit():
+
+ record_id = delete_box.get()
+
+ if record_id=="":
+    messagebox.showerror("Error","Give the id of the student you want to update")
+ else:
     global editor
+
     editor = Tk()
     editor.title("Update Data")
 
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
-
-    record_id = delete_box.get()
 
     c.execute("SELECT * from entries WHERE oid =" + record_id)
 

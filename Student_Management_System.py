@@ -1,13 +1,34 @@
 from tkinter import *
 from tkinter import messagebox, ttk
+<<<<<<< HEAD
 import sqlite3
 "#021524"
+=======
+from PIL import ImageTk, Image
+import sqlite3
+
+#creating a window named as root and giving it title and maximum and mimimum size
+>>>>>>> origin/Inish
 root = Tk()
 root.title("Student Management System")
 # root.geometry("1400x800")
 root.maxsize(width=1400, height=800)
 root.minsize(width=1400, height=800)
 
+#putting background as image using canvas and ImageTk
+canvas = Canvas(root, width=1400, height=800)
+image = ImageTk.PhotoImage(Image.open("main_screen 2.jpg"))
+canvas.create_image(0, 0, anchor=NW, image=image)
+canvas.pack()
+
+#all buttons images named
+login_image=PhotoImage(file="submit_button_228x32.png")
+showrecords=PhotoImage(file="show_records_button_226x32.png")
+searchimage=PhotoImage(file="search_button_230x32.png")
+update_image=PhotoImage(file="update_button_163x31.png")
+delete_image=PhotoImage(file="delete_button_160x31.png")
+
+#connecting to the database
 conn = sqlite3.connect("management.db")
 c = conn.cursor()
 
@@ -29,7 +50,11 @@ c = conn.cursor()
 
 
 # creating labels and entries
+<<<<<<< HEAD
 first = Label(root, text="FIRST NAME", bg="black", fg="white").place(x=500, y=180)
+=======
+first = Label(root, text="FIRST NAME", bg="#021524", fg="white").place(x=500, y=180)
+>>>>>>> origin/Inish
 first_name = Entry(root)
 first_name.place(x=650,y=177)
 
@@ -59,17 +84,17 @@ dob = Label(root, text="DATE OF BIRTH", bg="black", fg="white").place(x=900, y=2
 month = ttk.Combobox(root, textvariable=mon, width=9)
 month.place(x=1020, y=230)
 month['values']= months
-month.current(0)
+# month.current(0)
 
 day = ttk.Combobox(root, textvariable=dy, width=3)
 day.place(x=1130, y=230)
 day['values']=days
-day.current(0)
+# day.current(0)
 
 year = ttk.Combobox(root, textvariable=yer, width=4)
 year.place(x=1190, y=230)
 year['values']=years
-year.current(0)
+# year.current(0)
 
 agee = Label(root, text="AGE", bg="black", fg="white").place(x=500,y=280)
 age = Entry(root)
@@ -77,9 +102,15 @@ age.place(x=650, y=277)
 
 g = StringVar()
 g.get()
+<<<<<<< HEAD
 gen = Label(root, text="GENDER", bg="black", fg="white").place(x=900, y=280)
 r1 = Radiobutton(root, text="Male", variable=g, value="M", bg="black", fg="white")
 r2 = Radiobutton(root, text="Female", variable=g, value="F", bg="black", fg="white")
+=======
+gen = Label(root, text="GENDER", bg="#021524", fg="white").place(x=900, y=280)
+r1 = Radiobutton(root, text="Male", variable=g, value="MALE", bg="#021524", fg="white")
+r2 = Radiobutton(root, text="Female", variable=g, value="FEMALE", bg="#021524", fg="white")
+>>>>>>> origin/Inish
 r1.place(x=1020, y=280)
 r2.place(x=1090 , y=280)
 
@@ -91,7 +122,12 @@ phone = Label(root, text="PHONE NUMBER", bg="black", fg="white").place(x=900, y=
 phone_number = Entry(root)
 phone_number.place(x=1020, y=327)
 
+<<<<<<< HEAD
 previousschool = Label(root, text="PREVIOUS COLLEGE", bg="black", fg="white").place(x=500, y=380)
+=======
+
+previousschool = Label(root, text="PREVIOUS COLLEGE", bg="#021524", fg="white").place(x=500, y=380)
+>>>>>>> origin/Inish
 school = Entry(root)
 school.place(x=650 ,y=377)
 
@@ -99,18 +135,35 @@ marks = Label(root, text="GPA", bg="black", fg="white").place(x=900, y=380)
 score = Entry(root)
 score.place(x=1020, y=377)
 
-# delete entry and label
-deletebox = Label(root, text='DELETE/UPDATE' ,bg="#052b36", fg="white").place(x=440, y=560)
-delete_box = Entry(root, width=25)
-delete_box.place(x=570, y=557)
 
 
 def submit():
-    conn = sqlite3.connect("management.db")
-    c = conn.cursor()
+    #taking all the values from entry so that if any entry is left it shows error message
+    a = first_name.get()
+    b = last_name.get()
+    d = address.get()
+    e = phone_number.get()
+    f = school.get()
+    h = score.get()
+    i = age.get()
+    j = yer.get()
+    k = mon.get()
+    l = dy.get()
+    m = g.get()
 
+    #creating a list for holding entries values
+    list = [a, b, d, e, f, h, i, j, k, l, m]
+    #checking the lenght of values ..... if it is 0 it shows error message and if not it connects to the database and add records
+    if (len(list[0]) == 0 or len(list[1]) == 0 or len(list[2]) == 0 or len(list[3]) == 0 or len(list[4]) == 0 or len(
+            list[5]) == 0 or len(list[6]) == 0 or len(list[7]) == 0 or len(list[8]) == 0 or len(list[9]) == 0 or len(
+            list[10]) == 0):
+        messagebox.showerror("ERROR","ALL FIELDS REQUIRED")
+    else:
 
-    c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
+        conn = sqlite3.connect("management.db")
+        c = conn.cursor()
+
+        c.execute("INSERT INTO entries VALUES(:first_name, :last_name, :username, :date_of_birth, :age, :gender, :address,"
               " :phone_number, :school, :score)", {
                   "first_name": first_name.get(),
                   "last_name": last_name.get(),
@@ -126,43 +179,150 @@ def submit():
 
 
 
-    first_name.delete(0, END)
-    last_name.delete(0, END)
-    username.delete(0, END)
-    # date_of_birth.delete(0, END)
-    age.delete(0, END)
-    # g.delete(0, END)
-    address.delete(0, END)
-    phone_number.delete(0, END)
-    school.delete(0, END)
-    score.delete(0, END)
+        first_name.delete(0, END)
+        last_name.delete(0, END)
+        username.delete(0, END)
+        # date_of_birth.delete(0, END)
+        age.delete(0, END)
+        # g.delete(0, END)
+        address.delete(0, END)
+        phone_number.delete(0, END)
+        school.delete(0, END)
+        score.delete(0, END)
 
-    messagebox.showinfo("Success", "Data added successfully")
+        messagebox.showinfo("Success", "Data added successfully")
+
+        conn.commit()
+        conn.close()
+
+
+def query():
+    #created a second window for displaying result
+    secondWindow = Tk()
+    secondWindow.title("DATA")
+    secondWindow.maxsize(width=1400, height=300)
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    c.execute("SELECT *, oid from entries")
+    records = c.fetchall()
+
+    #used tree for displaying reocrds in table
+    tree = ttk.Treeview(secondWindow)
+    #created a scrollbarr
+    scroll_y = ttk.Scrollbar(orient=VERTICAL)
+    tree.configure(yscrollcommand=scroll_y.set)
+    tree["columns"] = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten")
+    #adjusting width of each tree column
+    tree.column("one",minwidth=0,width=100)
+    tree.column("two",minwidth=0,width=150)
+    tree.column("three",minwidth=0,width=150)
+    tree.column("four",minwidth=0,width=150)
+    tree.column("five",minwidth=0,width=70)
+    tree.column("six",minwidth=0,width=80)
+    tree.column("seven",minwidth=0,width=130)
+    tree.column("eight",minwidth=0,width=150)
+    tree.column("nine",minwidth=0,width=150)
+    tree.column("ten",minwidth=0,width=90)
+
+    #headings of each column
+    tree.heading("one", text="First Name")
+    tree.heading("two", text="Last Name")
+    tree.heading("three", text="User Name")
+    tree.heading("four", text="Date Of Birth")
+    tree.heading("five", text="Age")
+    tree.heading("six", text="Gender")
+    tree.heading("seven", text="Address")
+    tree.heading("eight", text="Phone Number")
+    tree.heading("nine", text="Previous College")
+    tree.heading("ten", text="Score")
+
+    i=0
+    #inserting records in tree
+    for row in records:
+        if i%2==0:
+            tree.insert('', i,tags = ('oddrow',), text="Student " + str(row[10]),
+            values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        else:
+            tree.insert('', i,tags = ('evenrow',), text="Student " + str(row[10]),
+            values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        i = i + 1
+    tree.tag_configure('oddrow', background='light green')
+    tree.tag_configure('evenrow', background='white')
+    tree.pack()
 
     conn.commit()
     conn.close()
+    secondWindow.mainloop()
 
+<<<<<<< HEAD
 
 
 def update():
     global gsecond
+=======
+# delete entry and label
+deletebox = Label(root, text='DELETE/UPDATE' ,bg="#052b36", fg="white").place(x=440, y=560)
+delete_box = Entry(root, width=25)
+delete_box.place(x=570, y=557)
+
+
+def delete():
+ a=delete_box.get()
+ if a=="":
+    messagebox.showerror("Error","Give the id of the student you want to delete")
+ else:
+>>>>>>> origin/Inish
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
 
-    record_id = delete_box.get()
+    c.execute("DELETE from entries WHERE oid =" + delete_box.get())
+    messagebox.showinfo("Success", "Successfully deleted")
+    delete_box.delete(0, END)
+    conn.commit()
+    conn.close()
+    query()
 
-    c.execute("""UPDATE entries SET
-    first_name = :frst ,
-    last_name = :lst,
-    username = :usr,
-    date_of_birth = :dobsecond,
-    age = :agesecond,
-    gender = :gensecond,
-    address = :addrsecond,
-    phone_number = :phonesecond,
-    school = :schoolsecond,
-    score = :scoresecond
-    WHERE oid = :oid""", {
+
+def update():
+    a = first_name_editor.get()
+    b = last_name_editor.get()
+    d = address_editor.get()
+    e = phone_number_editor.get()
+    f = school_editor.get()
+    h = score_editor.get()
+    i = age_editor.get()
+    j = yearsecond.get()
+    k = monthsecond.get()
+    l = daysecond.get()
+    m = gsecond.get()
+
+    #creating a list for holding entries values
+    list = [a, b, d, e, f, h, i, j, k, l, m]
+
+    # checking the lenght of values ..... if it is 0 it shows error message and if not it connects to the database and add records
+    if (len(list[0]) == 0 or len(list[1]) == 0 or len(list[2]) == 0 or len(list[3]) == 0 or len(list[4]) == 0 or len(
+            list[5]) == 0 or len(list[6]) == 0 or len(list[7]) == 0 or len(list[8]) == 0 or len(list[9]) == 0 or len(
+            list[10]) == 0):
+        messagebox.showerror("ERROR","ALL FIELDS REQUIRED")
+    else:
+        conn = sqlite3.connect("management.db")
+        c = conn.cursor()
+
+        record_id = delete_box.get()
+
+        c.execute("""UPDATE entries SET
+        first_name = :frst ,
+        last_name = :lst,
+        username = :usr,
+        date_of_birth = :dobsecond,
+        age = :agesecond,
+        gender = :gensecond,
+        address = :addrsecond,
+        phone_number = :phonesecond,
+        school = :schoolsecond,
+        score = :scoresecond
+        WHERE oid = :oid""", {
         'frst': first_name_editor.get(),
         'lst': last_name_editor.get(),
         'usr': username_editor.get(),
@@ -175,22 +335,28 @@ def update():
         'scoresecond': score_editor.get(),
         'oid': record_id
 
-    })
-    messagebox.showinfo("Success", "Data successfully modified")
-    delete_box.delete(0, END)
-    conn.commit()
-    conn.close()
-    editor.destroy()
+        })
+        messagebox.showinfo("Success", "Data successfully modified")
+        delete_box.delete(0, END)
+        editor.destroy()
+        conn.commit()
+        conn.close()
+        query()
 
 def edit():
+
+ record_id = delete_box.get()
+
+ if record_id=="":
+    messagebox.showerror("Error","Give the id of the student you want to update")
+ else:
     global editor
+
     editor = Tk()
     editor.title("Update Data")
 
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
-
-    record_id = delete_box.get()
 
     c.execute("SELECT * from entries WHERE oid =" + record_id)
 
@@ -256,11 +422,6 @@ def edit():
     gsecond.current(0)
     gsecond.grid(row=3, column=3)
 
-    # r11 = Radiobutton(editor, text="Male", variable=gsecond, value="M")
-    # r22 = Radiobutton(editor, text="Female", variable=gsecond, value="F")
-    # r11.grid(row=3, column=3)
-    # r22.grid(row=3, column=4)
-
     addrsss = Label(editor, text="ADDRESS").grid(row=4, column=0, pady=20)
     address_editor = Entry(editor)
     address_editor.grid(row=4, column=1, pady=20)
@@ -283,9 +444,8 @@ def edit():
         first_name_editor.insert(0, record[0])
         last_name_editor.insert(0, record[1])
         username_editor.insert(0, record[2])
-        # date_of_birth_editor.insert(0, record[3])
         age_editor.insert(0, record[4])
-        # gender_editor.insert(0, record[5])
+        gsecond.set(record[5])
         address_editor.insert(0, record[6])
         phone_number_editor.insert(0, record[7])
         school_editor.insert(0, record[8])
@@ -293,11 +453,86 @@ def edit():
 
         edit_btn = Button(editor, text="SAVE", command=update).grid(row=7, column=2, pady=20)
 
-# submit and query button
-submit_button = Button(root, text="submit", command=submit).place(x=560 , y=440)
 
+<<<<<<< HEAD
 #update button
 update_btn = Button(root, text="Update", command=edit).place(x=690, y=605)
+=======
+searchlabel=Label(root, text="Search" ,bg="#052b36", fg="white").place(x=950, y=560)
+searchentry=Entry(root, width=25)
+searchentry.place(x=1050, y=557)
+
+
+
+
+def search():
+
+ searchrecord=searchentry.get()
+ if searchrecord=="":
+    messagebox.showerror("Error","Give the id of student you want to search")
+ else:
+    messagebox.showinfo("Success","Providing the data of searched item")
+    thirdwindow = Tk()
+
+    conn = sqlite3.connect("management.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM entries WHERE oid =" + searchrecord)
+    rec = c.fetchall()
+
+    # print(rec)
+
+    tree = ttk.Treeview(thirdwindow)
+    tree["columns"] = ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten")
+    tree.column("one", minwidth=0, width=100)
+    tree.column("two", minwidth=0, width=150)
+    tree.column("three", minwidth=0, width=150)
+    tree.column("four", minwidth=0, width=150)
+    tree.column("five", minwidth=0, width=70)
+    tree.column("six", minwidth=0, width=80)
+    tree.column("seven", minwidth=0, width=130)
+    tree.column("eight", minwidth=0, width=150)
+    tree.column("nine", minwidth=0, width=150)
+    tree.column("ten", minwidth=0, width=90)
+
+
+
+
+    tree.heading("one", text="First Name")
+    tree.heading("two", text="Last Name")
+    tree.heading("three", text="User Name")
+    tree.heading("four", text="Date Of Birth")
+    tree.heading("five", text="Age")
+    tree.heading("six", text="Gender")
+    tree.heading("seven", text="Address")
+    tree.heading("eight", text="Phone Number")
+    tree.heading("nine", text="Previous College")
+    tree.heading("ten", text="Score")
+
+    i=0
+    for row in rec:
+        tree.insert('', i, text="Student " + str(searchrecord),
+                    values=(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+        i+=1
+
+    tree.pack()
+    conn.commit()
+    conn.close()
+    thirdwindow.mainloop()
+
+
+#buttons made using image
+submit_button = Button(root, image=login_image, command=submit, height=32, width=228).place(x=560 , y=440)
+
+query_btn = Button(root, image=showrecords, command=query, height=32, width=226).place(x=1000 , y=440)
+
+search_btn=Button(root, image=searchimage, command=search, width=230, height=32).place(x=1070, y=605)
+
+update_btn = Button(root, image=update_image, command=edit, width=163, height=31).place(x=690, y=605)
+
+delete_btn = Button(root, image=delete_image, command=delete, height=31, width=160).place(x=440, y=605)
+
+>>>>>>> origin/Inish
 
 conn.commit()
 conn.close()

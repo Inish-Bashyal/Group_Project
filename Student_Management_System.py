@@ -6,6 +6,7 @@ import sqlite3
 #creating a window named as root and giving it title and maximum and mimimum size
 root = Tk()
 root.title("Student Management System")
+root.iconbitmap("logo.ico")
 # root.geometry("1400x800")
 root.maxsize(width=1400, height=800)
 root.minsize(width=1400, height=800)

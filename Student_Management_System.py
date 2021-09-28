@@ -438,12 +438,15 @@ searchentry.place(x=1050, y=557)
 
 def search():
 
-    thirdwindow=Tk()
+ searchrecord=searchentry.get()
+ if searchrecord=="":
+    messagebox.showerror("Error","Give the id of student you want to search")
+ else:
+    messagebox.showinfo("Success","Providing the data of searched item")
+    thirdwindow = Tk()
 
     conn = sqlite3.connect("management.db")
     c = conn.cursor()
-
-    searchrecord=searchentry.get()
 
     c.execute("SELECT * FROM entries WHERE oid =" + searchrecord)
     rec = c.fetchall()
